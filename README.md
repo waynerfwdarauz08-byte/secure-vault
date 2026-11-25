@@ -51,4 +51,4 @@ La colección de entradas está acotada a 100 y contiene cuerpos para búsqueda.
 
 Inicializar Git después de revisar .gitignore. No se fabricaron commits ni historial de integrantes. Entregar credenciales al docente por canal privado.
 
-Git se inicializó sin commits ni remoto. Si tu Git advierte dubious ownership por archivos creados por el sandbox, comprobá que esta carpeta es tu proyecto; podés usar git -c safe.directory=C:/Users/FWD8D/OneDrive/Desktop/SV/securevault status para esa operación, sin cambiar configuración global. No agregar excepciones para repositorios desconocidos.
+Repositorio: https://github.com/waynerfwdarauz08-byte/secure-vault . Rama principal main, con origin configurado y primer commit publicado. Si tu Git advierte dubious ownership por archivos creados por el sandbox, comprobá que esta carpeta es tu proyecto; podés usar git -c safe.directory=C:/Users/FWD8D/OneDrive/Desktop/SV/securevault status para esa operación, sin cambiar configuración global. No agregar excepciones para repositorios desconocidos.

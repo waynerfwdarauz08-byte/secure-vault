@@ -78,8 +78,9 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 
 ## Siguiente fase: pendientes reales
 
-- [ ] Conectar repositorio remoto de GitHub y subir código tras revisar exclusión de secretos; todavía sin commits ni remoto según la última revisión local.
-- [ ] Ejecutar GitHub Actions remotamente y verificar comprobaciones/gate de despliegue.
+- [x] Conectado origin a https://github.com/waynerfwdarauz08-byte/secure-vault.git y subido el proyecto a main tras revisar exclusión de secretos. Primer commit real: 9f7c61424d2e6d4639476b96a76b7521c575f265.
+- [x] Ejecutar GitHub Actions remotamente: lint, unitarias, migraciones e integración en PostgreSQL temporal, build frontend y auditorías completados con éxito para el primer commit publicado.
+- [ ] Configurar protección de rama/comprobación requerida y verificar gate de despliegue al conectar hosting. El éxito de CI no demuestra que ese gate esté configurado.
 - [ ] Preparar Supabase de producción independiente y permisos mínimos de ejecución separados de migraciones; no dar por comprobada esa separación en desarrollo.
 - [ ] Configurar SMTP real y comprobar recuperación por correo; el flujo real de entrega no se validó en esta fase.
 - [ ] Desplegar backend en Render y frontend en Vercel; aún no existen URLs públicas verificadas.
@@ -93,4 +94,6 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - Confirmados permisos de escritura y ausencia de ramas remotas antes de preparar el primer commit. Sin historial remoto que sobrescribir.
 - Revisión local de publicación: 80 archivos candidatos, sin coincidencias con secretos configurados ni patrones de credenciales detectados. Es una comprobación acotada, no una auditoría completa de secretos.
 - `.env`, correo de desarrollo, node_modules y dist excluidos. El comprobador local tools/check-publication.cjs no imprime los valores inspeccionados.
-- [ ] Registrar primer commit, push y resultado real de GitHub Actions. Sin publicar Render/Vercel ni tocar la base de Supabase.
+- [x] Primer commit y push completados. Rama local main sigue origin/main. No se publicó Render/Vercel ni se tocó la base de Supabase.
+- [x] GitHub Actions completó con éxito SecureVault checks para 9f7c61424d2e6d4639476b96a76b7521c575f265: https://github.com/waynerfwdarauz08-byte/secure-vault/actions/runs/45666312604 . Todos los pasos de instalación, lint, pruebas, migraciones, auditorías y build finalizaron correctamente; contenedor de prueba cerrado.
+- [x] Árbol remoto revisado: 80 archivos publicados, sin rutas .env privadas, node_modules, dist ni .mail. Esto no publica ni modifica los datos almacenados en Supabase.
