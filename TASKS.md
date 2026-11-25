@@ -141,3 +141,17 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - [ ] Integrar ajuste por PR tras verify y desplegar frontend en Vercel, raíz frontend, npm ci, npm run build, salida dist. Sin secretos en Vercel.
 - [ ] Obtener URL real de Vercel y reemplazar FRONTEND_ORIGIN y PUBLIC_APP_URL temporales en Render y en el archivo local privado de producción. Conservar el .env de desarrollo.
 - [ ] Verificar registro/login/sesión a través del proxy, CRUD, perfil, recuperación por correo y persistencia. No declarar aceptación pública completa con solo /health.
+
+## Verificación pública y corrección de CSRF tras recuperación
+
+- Usuario confirmó integración del ajuste de Vercel y despliegue en https://secure-vault-theta-bay.vercel.app . Confirmó actualización de FRONTEND_ORIGIN y PUBLIC_APP_URL en Render al origen real sin /login.
+- [x] Registro e ingreso al diario de producción confirmados por el usuario con cuenta nueva, separada de desarrollo.
+- [x] Creación de entrada de ejemplo y conservación tras F5 confirmadas en producción.
+- [x] Recepción de correo de recuperación por Brevo confirmada; usuario también confirmó visualización móvil. No se guardan correos, enlaces, tokens ni contraseñas en evidencias.
+- Usuario reportó después «Solicitud no autorizada» al iniciar sesión desde celular tras recuperación; desde computadora sí pudo entrar. También reportó 429 tras varios intentos. No se desactivaron límites ni se borraron registros de seguridad; cooldown puede llegar a 15 minutos.
+- [x] Reproducido el fallo de CSRF obsoleto con dos pruebas simuladas que fallaban antes del cambio: reset elimina cookie pero el cliente conserva CSRF; otra pestaña puede revocar la sesión cacheada.
+- [x] Cliente descarta CSRF y usuario después de reset exitoso y obtiene token vigente antes de cada login. Backend conserva Origin, cookies y protección CSRF; no se agregaron reintentos automáticos de mutaciones rechazadas.
+- [x] Pruebas frontend finales: 12/12 aprobadas (cuatro nuevas de ciclo CSRF), lint y build correctos. Revisión local de publicación: 84 archivos, sin hallazgos en las comprobaciones realizadas. Ninguna prueba nueva utilizó credenciales reales o Supabase.
+- [ ] Integrar fix/mobile-login-csrf por PR tras verify y confirmar despliegue Vercel de la corrección.
+- [ ] Tras finalizar el cooldown, confirmar login móvil desde navegador normal y recuperación completa. El éxito de escritorio no prueba por sí solo todos los contextos móviles.
+- [ ] Antes de cerrar seguridad pública: revisar IP efectiva/proxies y límites en infraestructura real; evitar agrupar clientes por IP del proxy sin aceptar cabeceras falsificables. No se modificó trust proxy durante esta corrección.

@@ -15,7 +15,8 @@ export async function bootstrap() {
   csrf = (await r.json()).csrfToken;
 }
 export async function api(path, { method = "GET", body } = {}) {
-  if (method !== "GET" && !csrf) await bootstrap();
+  // El login puede llegar desde una pestaña cuya sesión fue revocada al resetear.
+  if (method !== "GET" && (!csrf || path === "/auth/login")) await bootstrap();
   const r = await fetch("/api" + path, {
     method,
     credentials: "same-origin",
@@ -39,6 +40,11 @@ export async function api(path, { method = "GET", body } = {}) {
     e.fields = data.error?.fields;
     e.status = r.status;
     throw e;
+  }
+  if (method === "POST" && path === "/auth/reset-password") {
+    // El backend revoca sesiones y elimina la cookie: descartar también estado local.
+    clearSession();
+    expired();
   }
   return data;
 }
