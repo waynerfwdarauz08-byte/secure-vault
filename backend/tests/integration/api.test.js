@@ -474,13 +474,24 @@ test("RF01–08 y controles OWASP con PostgreSQL real", async (t) => {
     await t.test(
       "auditoría no contiene secretos ni datos privados",
       async () => {
-        const text = JSON.stringify(
-          (await m.Event.findAll()).map((e) => e.toJSON()),
-        );
+        const events = (await m.Event.findAll()).map((e) => e.toJSON());
+        for (const event of events) {
+          assert.deepEqual(Object.keys(event).sort(), [
+            "actorId",
+            "createdAt",
+            "eventType",
+            "id",
+            "outcome",
+            "requestId",
+            "targetId",
+            "targetType",
+          ]);
+        }
+        const text = JSON.stringify(events);
         for (const secret of [
           pass,
           "Contenido privado",
-          "8888",
+          "+506 8888 1234",
           mail.at(-1).token,
         ])
           assert.equal(text.includes(secret), false);

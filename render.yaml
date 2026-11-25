@@ -23,19 +23,17 @@ services:
         value: v1
       - key: DB_TLS
         value: 'true'
+      - key: DB_CA
+        sync: false
       - key: FRONTEND_ORIGIN
         sync: false
       - key: PUBLIC_APP_URL
         sync: false
       - key: TRUSTED_PROXIES
         sync: false
-      - key: SMTP_HOST
-        sync: false
-      - key: SMTP_PORT
-        value: '587'
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASS
+      - key: MAIL_TRANSPORT
+        value: brevo
+      - key: BREVO_API_KEY
         sync: false
       - key: MAIL_FROM
         sync: false
