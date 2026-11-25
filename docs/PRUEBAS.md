@@ -1,5 +1,19 @@
 # Pruebas y resultados
 
+## Brevo HTTPS para Render Free
+
+15 unitarias backend aprobadas: 10 nuevas comprueban payload mínimo, destino fijo,
+timeout, rechazo de redirecciones, aceptación 201, errores genéricos sin secretos,
+configuración incompleta, validación TLS/HTTPS y compatibilidad SMTP. Todas las
+llamadas de correo están simuladas. Se verificó lint y se repitieron los 15 casos
+de integración en PostgreSQL temporal (16 contando suite), todos correctos. Se
+corrigió un falso positivo anterior: buscar cuatro dígitos de un teléfono dentro
+de UUID aleatorios podía fallar por coincidencia; ahora se verifica la lista de
+campos permitidos y ausencia de los valores sensibles completos de prueba.
+No se enviaron correos reales ni se accedió a las bases de Supabase. La clave y
+remitente reales, permisos del proveedor, entrega y recuperación pública siguen
+pendientes de comprobación operativa.
+
 ## Corrección del esquema para Supabase
 
 La aplicación usa `securevault`, sin tocar el esquema de plataforma `vault`.

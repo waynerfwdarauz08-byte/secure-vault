@@ -18,7 +18,7 @@ Tu espacio para escribir y guardar lo que importa. Diario privado en español: R
 
 ## Configuración
 
-backend/.env.example enumera todas las variables. Sin secretos en React. El navegador usa /api a través del proxy de Vite o Vercel. No se usa Supabase Auth. En desarrollo sin SMTP los mensajes se guardan en backend/.mail/*.json: abrí el último archivo localmente para usar el enlace. Son archivos sensibles ignorados por Git: eliminarlos después de usarlos y nunca incluirlos en evidencias. En producción SMTP es obligatorio.
+backend/.env.example enumera todas las variables. Sin secretos en React. El navegador usa /api a través del proxy de Vite o Vercel. No se usa Supabase Auth. En desarrollo con MAIL_TRANSPORT=smtp y sin SMTP_HOST, los mensajes se guardan en backend/.mail/*.json: abrí el último archivo localmente para usar el enlace. Son archivos sensibles ignorados por Git: eliminarlos después de usarlos y nunca incluirlos en evidencias. En producción se exige correo real: Render Free usa MAIL_TRANSPORT=brevo, BREVO_API_KEY y MAIL_FROM (correo del remitente verificado), mediante HTTPS. SMTP sigue disponible para entornos que permitan sus puertos. Nunca poner claves reales en los archivos .env.example.
 
 ## Carpetas
 

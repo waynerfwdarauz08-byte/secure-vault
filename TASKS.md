@@ -97,3 +97,26 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - [x] Primer commit y push completados. Rama local main sigue origin/main. No se publicó Render/Vercel ni se tocó la base de Supabase.
 - [x] GitHub Actions completó con éxito SecureVault checks para 9f7c61424d2e6d4639476b96a76b7521c575f265: https://github.com/waynerfwdarauz08-byte/secure-vault/actions/runs/45666312604 . Todos los pasos de instalación, lint, pruebas, migraciones, auditorías y build finalizaron correctamente; contenedor de prueba cerrado.
 - [x] Árbol remoto revisado: 80 archivos publicados, sin rutas .env privadas, node_modules, dist ni .mail. Esto no publica ni modifica los datos almacenados en Supabase.
+
+## Preparación separada de producción
+
+- Según el usuario, el segundo proyecto de Supabase no se usa, se renombró a securevault-prod y no contiene tablas propias. securevault-dev se conserva separado.
+- Usuario confirmó restablecimiento de la contraseña de PostgreSQL de producción y apertura de Connect → Session pooler. No compartió credenciales en el chat.
+- [x] Creado backend/.env.production.local desde .env.example, sin copiar ni modificar el .env de desarrollo. NODE_ENV=production y secretos iniciales propios de producción generados sin imprimirlos; cualquier llave existente distinta de la plantilla se conserva.
+- [x] Confirmado que Git ignora .env.production.local. No se ejecutaron migraciones ni conexiones a Supabase en este paso.
+- [ ] Usuario pega la URI de producción directamente en DATABASE_URL del archivo separado y reemplaza el marcador de contraseña localmente. Al preparar el archivo la conexión aún era de plantilla.
+- [ ] Completar CA/TLS, orígenes HTTPS y SMTP antes de arrancar como producción. La configuración permanece incompleta y no se declara lista para desplegar.
+- [ ] Aplicar migraciones con selección explícita del entorno de producción; el comando habitual npm run migrate sigue usando desarrollo.
+
+## Correo de recuperación por Brevo HTTPS
+
+- Usuario confirmó cuenta Brevo, remitente verificado y creación de clave con acceso restringido a emails transaccionales. No se pidió compartir la clave en el chat.
+- [x] Implementado MAIL_TRANSPORT=brevo con POST HTTPS a destino fijo, timeout de 10 s y redirecciones rechazadas. Sin fallback silencioso a SMTP/archivo si Brevo falla. Transporte SMTP/desarrollo conservado.
+- [x] Validación de arranque exige clave y correo remitente válido para Brevo; conserva TLS/HTTPS y llaves requeridas en producción. render.yaml preparado para Brevo y DB_CA.
+- [x] Agregado MAIL_TRANSPORT=brevo únicamente al archivo privado de producción. Comprobación local sin imprimir valores: clave API, conexión y certificado presentes; MAIL_FROM estaba vacío al comprobarlo. No se cambió .env de desarrollo ni se regeneraron llaves.
+- [x] Pruebas locales: 15 unitarias aprobadas (10 nuevas de correo/configuración y 5 existentes), 15 casos de integración en PostgreSQL temporal aprobados (16 contando suite), lint correcto. Ningún correo real enviado; ninguna operación en Supabase.
+- [x] Corregido falso positivo de prueba de auditoría: cuatro dígitos podían coincidir con UUID aleatorio. Ahora comprueba campos de auditoría permitidos y ausencia del teléfono completo de prueba, contraseña, token y contenido privado.
+- [x] Comprobador de publicación ampliado a secretos de ambos entornos y clave Brevo, sin imprimirlos. Última revisión: 81 archivos candidatos, sin hallazgos en las comprobaciones realizadas.
+- [ ] Completar MAIL_FROM directamente en .env.production.local con el correo verificado en Brevo; no registrarlo aquí.
+- [ ] Subir corrección mediante rama fix/brevo-https-mail, PR y comprobación verify, respetando protección de main.
+- [ ] Verificar envío/recepción real y recuperación después de configurar URL pública y desplegar. Aceptación API 201 no demuestra entrega final. Mantener fecha de vencimiento de clave bajo control.

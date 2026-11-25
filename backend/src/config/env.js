@@ -15,6 +15,8 @@ export function config(source = process.env) {
       FRONTEND_ORIGIN: z.url(),
       PUBLIC_APP_URL: z.url(),
       TRUSTED_PROXIES: z.string().default(""),
+      MAIL_TRANSPORT: z.enum(["smtp", "brevo"]).default("smtp"),
+      BREVO_API_KEY: z.string().optional(),
       SMTP_HOST: z.string().optional(),
       SMTP_PORT: z.coerce.number().default(587),
       SMTP_USER: z.string().optional(),
@@ -37,11 +39,16 @@ export function config(source = process.env) {
   )
     throw new Error("Invalid encryption key configuration");
   if (
+    c.MAIL_TRANSPORT === "brevo" &&
+    (!c.BREVO_API_KEY?.trim() || !z.email().safeParse(c.MAIL_FROM).success)
+  )
+    throw new Error("Brevo requires an API key and a valid sender email");
+  if (
     c.NODE_ENV === "production" &&
     (c.DB_TLS !== "true" ||
       !c.PUBLIC_APP_URL.startsWith("https://") ||
       !c.FRONTEND_ORIGIN.startsWith("https://") ||
-      !c.SMTP_HOST ||
+      (c.MAIL_TRANSPORT === "smtp" && !c.SMTP_HOST) ||
       !c.MAIL_FROM)
   )
     throw new Error("Production requires TLS, HTTPS and email");
