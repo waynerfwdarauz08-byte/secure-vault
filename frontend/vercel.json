@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://REPLACE_RENDER_HOST/api/:path*"
+      "destination": "https://secure-vault-wtev.onrender.com/api/:path*"
     },
     {
       "source": "/:path*",
