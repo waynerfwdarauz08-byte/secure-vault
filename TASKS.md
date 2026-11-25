@@ -155,3 +155,14 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - [ ] Integrar fix/mobile-login-csrf por PR tras verify y confirmar despliegue Vercel de la corrección.
 - [ ] Tras finalizar el cooldown, confirmar login móvil desde navegador normal y recuperación completa. El éxito de escritorio no prueba por sí solo todos los contextos móviles.
 - [ ] Antes de cerrar seguridad pública: revisar IP efectiva/proxies y límites en infraestructura real; evitar agrupar clientes por IP del proxy sin aceptar cabeceras falsificables. No se modificó trust proxy durante esta corrección.
+
+## Entrega — 25/11/2026
+- [x] Investigación de diez preguntas actualizada con arquitectura real y fuentes oficiales.
+- [x] Enlaces públicos comprobados: Vercel /login 200 y Render /health 200.
+- [x] Cabeceras CSP/HSTS y otras verificadas en Vercel.
+- [x] Corrección CSRF móvil presente en main 4908c04.
+- [ ] Repetir login móvil tras despliegue y bloqueo por intentos.
+- [ ] Administrador de producción: identificar cuenta correcta; no usar MAIL_FROM como identidad supuesta.
+- [ ] Reportes ZAP, SecurityHeaders y SSL Labs; rol mínimo PostgreSQL e IP efectiva de proxy.
+- Detalle de evidencias y límites: docs/ENTREGA.md.
+
