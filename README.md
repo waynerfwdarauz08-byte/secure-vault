@@ -4,14 +4,30 @@ El esquema PostgreSQL de la aplicación es `securevault`. El esquema `vault` de
 Supabase pertenece a la plataforma y no debe modificarse. Esta corrección no
 cambia credenciales, llaves ni contenido cifrado.
 
-Tu espacio para escribir y guardar lo que importa. Diario privado en español: React/Vite, Express, Sequelize y PostgreSQL. La entrega pública requiere todavía configurar Supabase, SMTP, Vercel y Render. No hay URLs de producción inventadas.
+Tu espacio para escribir y guardar lo que importa. Diario privado en español: React/Vite, Express, Sequelize y PostgreSQL. Frontend desplegado en Vercel, API en Render y base de datos en Supabase.
+
+## Entrega y enlaces públicos
+
+- Aplicación: https://secure-vault-theta-bay.vercel.app/login
+- API: https://secure-vault-wtev.onrender.com/health
+- [Investigación de diez preguntas en PDF](docs/Investigacion_Despliegue_SecureVault.pdf).
+- [Investigación con fuentes oficiales](docs/INVESTIGACION_DESPLIEGUE.md).
+- [Resultados comprobados y pendientes](docs/ENTREGA.md).
+
+El 25/11/2026 se comprobaron respuestas HTTP 200 del frontend y de la API. Los reportes externos de seguridad y la comprobación final del login móvil siguen pendientes. Render Free puede suspender el servicio por inactividad.
+
+## Perfil administrador
+
+El registro público crea usuarios normales. El administrador gestiona usuarios y consulta eventos de seguridad; no tiene acceso al contenido privado de diarios ajenos. No existe una cuenta ni contraseña predeterminada.
+
+La cuenta administradora creada durante las pruebas locales corresponde a desarrollo. La preparación de administrador de producción está pendiente de identificar la cuenta correcta; no se deduce a partir del remitente de correo. El comando seguro de creación se ejecuta desde backend con `npm run admin` para el ambiente local configurado. No compartir credenciales en el repositorio.
 
 ## Ejecutar en Windows / VS Code
 
 1. Instalá Node.js 24 LTS actualizado. Abrí PowerShell en securevault, dentro del workspace SV.
 2. Desde backend ejecutá npm ci. Repetí desde frontend.
 3. Desde backend: Copy-Item .env.example .env. Completá DATABASE_URL y TLS siguiendo docs/DESPLIEGUE.md.
-4. Generá dos secretos diferentes: node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))". Uno para SESSION_SECRET y otro dentro de DATA_ENCRYPTION_KEYS: {"v1":"BASE64_GENERADO"}. ACTIVE_ENCRYPTION_KEY_ID=v1. Respaldá las llaves en forma segura.
+4. Solo para una instalación nueva sin datos ni llaves existentes, generá dos secretos diferentes: node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))". Uno para SESSION_SECRET y otro dentro de DATA_ENCRYPTION_KEYS: {"v1":"BASE64_GENERADO"}. ACTIVE_ENCRYPTION_KEY_ID=v1. Si ya hay datos, conservá las llaves existentes sin sobrescribirlas. Respaldalas en forma segura.
 5. Desde backend: npm run migrate, luego npm run admin. El comando pide contraseña oculta; no hay cuentas predeterminadas.
 6. Desde backend: npm run dev (puerto 3000). En otra terminal desde frontend: npm run dev. Abrí http://localhost:5173.
 7. Creá una cuenta desde la interfaz. El registro público siempre asigna rol usuario.
@@ -32,7 +48,7 @@ Alternativa sin PostgreSQL instalado: desde securevault ejecutar npm ci y node t
 
 ## Despliegue
 
-Seguí docs/DESPLIEGUE.md para Supabase, Vercel y Render. Reemplazá REPLACE_RENDER_HOST en frontend/vercel.json. render.yaml desactiva auto-deploy: publicar manualmente únicamente SHA con CI verde. Desactivar también despliegue automático de Vercel hasta tener un gate equivalente. Migraciones son un paso controlado, no sequelize.sync.
+Seguí docs/DESPLIEGUE.md para Supabase, Vercel y Render. El rewrite de producción en frontend/vercel.json ya apunta a la API pública. Render tiene despliegue manual; Vercel está conectado a GitHub. La protección de main exige el check verify, pero no se afirma que Vercel espere a CI antes de desplegar. Migraciones son un paso controlado, no sequelize.sync. Desarrollo y producción usan proyectos Supabase separados; las pruebas automatizadas usan PostgreSQL temporal aislado.
 
 ## Privacidad y límites
 
