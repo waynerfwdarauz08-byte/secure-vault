@@ -1,0 +1,60 @@
+name: SecureVault checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: vault_test
+          POSTGRES_PASSWORD: ephemeral-ci-only
+          POSTGRES_DB: securevault_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://vault_test:ephemeral-ci-only@localhost:5432/securevault_test
+      DB_TLS: 'false'
+      ACTIVE_ENCRYPTION_KEY_ID: v1
+      FRONTEND_ORIGIN: http://localhost:5173
+      PUBLIC_APP_URL: http://localhost:5173
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+      - name: Generate ephemeral test secrets
+        run: node tools/ci-env.cjs
+      - run: npm ci
+        working-directory: backend
+      - run: npm run lint
+        working-directory: backend
+      - run: npm test
+        working-directory: backend
+      - run: npm run migrate
+        working-directory: backend
+      - run: npm run test:integration
+        working-directory: backend
+      - run: npm audit --audit-level=high
+        working-directory: backend
+      - run: npm ci
+        working-directory: frontend
+      - run: npm run lint
+        working-directory: frontend
+      - run: npm test
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - run: npm audit --audit-level=high
+        working-directory: frontend

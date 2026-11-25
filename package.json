@@ -1,0 +1,24 @@
+{
+  "name": "securevault",
+  "version": "1.0.0",
+  "description": "SecureVault academic private diary and local verification tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tools/test-local.mjs",
+    "format": "prettier --write backend/src backend/scripts backend/tests frontend/src frontend/vite.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "adm-zip": "^0.6.1",
+    "embedded-postgres": "^17.12.0-beta.19",
+    "pdf-parse": "^2.4.5",
+    "prettier": "^3.10.1"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=24 <25"
+  }
+}

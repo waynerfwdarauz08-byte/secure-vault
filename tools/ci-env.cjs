@@ -1,0 +1,1 @@
+const fs=require('node:fs');const {randomBytes}=require('node:crypto');fs.appendFileSync(process.env.GITHUB_ENV,'SESSION_SECRET='+randomBytes(48).toString('base64')+'\nDATA_ENCRYPTION_KEYS='+JSON.stringify({v1:randomBytes(32).toString('base64')})+'\n');
