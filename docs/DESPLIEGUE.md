@@ -45,6 +45,29 @@ GitHub Actions corre PostgreSQL 17 temporal, migraciones, lint, suites, build y 
 
 ## 3. Render
 
+Antes del primer arranque, crear las tablas de producción. El endpoint /health
+es de liveness: puede responder inicialmente aunque falten tablas, y la limpieza
+periódica de sesiones fallará después. No usar ese primer 200 como prueba de
+migraciones o persistencia.
+
+Con ambos archivos locales privados configurados, desde la raíz securevault:
+
+```powershell
+node tools/production-database.mjs
+```
+
+Este paso solo lee metadatos, exige TLS y comprueba un destino diferente al de
+desarrollo. Revisado el resultado y autorizada la aplicación, ejecutar:
+
+```powershell
+node tools/production-database.mjs --apply
+```
+
+Usa el runner versionado existente y verifica las tablas después; no inicia el
+servidor ni requiere que Vercel y correo estén listos. No lee contenidos privados
+ni modifica archivos .env. Si hay tablas sin registro de migraciones, se detiene
+para revisión. Nunca usar la suite automatizada para preparar producción.
+
 Crear Web Service desde repositorio, Root Directory backend, runtime Node 24, Build npm ci, Start npm start, health /health. render.yaml es plantilla. Auto-deploy apagado: publicar manualmente el SHA exacto de CI verde. Port provisto por Render; escucha 0.0.0.0.
 
 En Environment configurar las variables necesarias de backend/.env.example. NODE_ENV=production, DB_TLS=true, DB_CA si hace falta, PUBLIC_APP_URL y FRONTEND_ORIGIN serán la URL HTTPS real de Vercel. Para Render Free usar MAIL_TRANSPORT=brevo, BREVO_API_KEY y MAIL_FROM con el correo del remitente verificado. El servicio envía por la API HTTPS fija de Brevo, con timeout de 10 segundos y sin redirecciones. No requiere SMTP_HOST/PORT/USER/PASS en ese modo. No escribir secretos en render.yaml.

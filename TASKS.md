@@ -106,7 +106,20 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - [x] Confirmado que Git ignora .env.production.local. No se ejecutaron migraciones ni conexiones a Supabase en este paso.
 - [ ] Usuario pega la URI de producción directamente en DATABASE_URL del archivo separado y reemplaza el marcador de contraseña localmente. Al preparar el archivo la conexión aún era de plantilla.
 - [ ] Completar CA/TLS, orígenes HTTPS y SMTP antes de arrancar como producción. La configuración permanece incompleta y no se declara lista para desplegar.
-- [ ] Aplicar migraciones con selección explícita del entorno de producción; el comando habitual npm run migrate sigue usando desarrollo.
+- [x] Aplicada migración inicial con selección explícita de producción, tras preflight de solo lectura: destino distinto de desarrollo, TLS verificado y cero tablas propias antes de migrar. Resultado posterior: siete tablas, sessions y migrations presentes. npm run migrate sigue seleccionando desarrollo.
+
+## Incidente de arranque en Render: sesiones sin migrar
+
+- Usuario desplegó backend en Render y compartió https://secure-vault-wtev.onrender.com . Antes de preparar las tablas recibió 502 y reinicios; captura de Logs muestra session_cleanup_failed.
+- El orden de la guía fue incorrecto: se indicó desplegar antes de aplicar las migraciones de producción. El servidor podía responder health al inicio, pero su limpieza periódica de sesiones fallaba sin la tabla.
+- Preparada tools/production-database.mjs para operaciones locales: lee explícitamente los archivos privados de ambos entornos, comprueba que los destinos sean distintos y exige NODE_ENV=production con DB_TLS=true. No inicia Express ni depende de URLs web o correo para migrar. No imprime URI, contraseñas, llaves ni datos personales.
+- [x] Lint y 18 unitarias aprobados, incluidas tres pruebas nuevas de selección de destino/TLS; ninguna prueba automatizada se ejecutó contra Supabase.
+- [x] Preflight real autorizado de solo lectura: table_count=0, sessions_exists=false, migrations_exists=false en producción. No consultó contenidos del diario ni cuentas.
+- [x] Ejecutado el runner existente y transaccional mediante tools/production-database.mjs --apply, con aprobación para crear las tablas. Resultado: migrationsCompleted=true, table_count=7, sessions_exists=true, migrations_exists=true. Sin DROP/TRUNCATE, cambios de llaves ni modificaciones de datos de desarrollo.
+- [x] Revisión local de publicación: 83 archivos candidatos, sin hallazgos en las comprobaciones realizadas.
+- [x] Recuperación de /health confirmada: consulta posterior del agente devolvió HTTP 200 y {"status":"ok"}; el usuario también confirmó ese resultado en navegador. Se conserva la limitación: health es liveness, no prueba los flujos completos.
+- [ ] Versionar la herramienta, documentación y conexión del frontend mediante PR en fix/vercel-production-connection; no cambiar main directamente.
+- [ ] Crear administrador de producción por terminal segura cuando corresponda y completar frontend, orígenes, proxy/cookies y correo real. Los orígenes temporales de Render no son URLs finales.
 
 ## Correo de recuperación por Brevo HTTPS
 
@@ -119,5 +132,12 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - [x] Comprobador de publicación ampliado a secretos de ambos entornos y clave Brevo, sin imprimirlos. Última revisión: 81 archivos candidatos, sin hallazgos en las comprobaciones realizadas.
 - [x] Usuario completó MAIL_FROM en .env.production.local; comprobación local confirmó remitente con formato de correo válido y clave presente, sin imprimir sus valores. Esto no prueba aún permisos de proveedor o entrega real.
 - [x] Rama fix/brevo-https-mail subida. CI aprobó el commit de implementación 620d434c28fb18f4e15daf451f7702d3fd41a4cb: https://github.com/waynerfwdarauz08-byte/secure-vault/actions/runs/45685291006 . No se modificó main directamente.
-- [ ] Crear PR desde la cuenta del usuario y completar integración tras verify. El conector GitHub devolvió 403 «Resource not accessible by integration» al intentar crearlo. Enlace preparado: https://github.com/waynerfwdarauz08-byte/secure-vault/compare/main...fix/brevo-https-mail?expand=1 . Sin bypass de protecciones ni cambios de permisos.
+- [x] Usuario creó y fusionó el PR #11 de Brevo. Fetch de main confirma merge d67b45d. El conector GitHub no pudo crear el PR por 403; se respetó la protección y el usuario lo integró desde su cuenta.
 - [ ] Verificar envío/recepción real y recuperación después de configurar URL pública y desplegar. Aceptación API 201 no demuestra entrega final. Mantener fecha de vencimiento de clave bajo control.
+
+## Conexión del frontend público
+
+- [x] Actualizado frontend/vercel.json para reenviar /api a https://secure-vault-wtev.onrender.com/api, conservando orden previo al fallback SPA y cabeceras de seguridad.
+- [ ] Integrar ajuste por PR tras verify y desplegar frontend en Vercel, raíz frontend, npm ci, npm run build, salida dist. Sin secretos en Vercel.
+- [ ] Obtener URL real de Vercel y reemplazar FRONTEND_ORIGIN y PUBLIC_APP_URL temporales en Render y en el archivo local privado de producción. Conservar el .env de desarrollo.
+- [ ] Verificar registro/login/sesión a través del proxy, CRUD, perfil, recuperación por correo y persistencia. No declarar aceptación pública completa con solo /health.
