@@ -1,3 +1,13 @@
+# Verificación actual — 26 de noviembre de 2026
+
+En esta fecha: 18 pruebas unitarias backend, 16 resultados de integración en PostgreSQL temporal aislado y 12 pruebas frontend, todos aprobados. npm audit backend/frontend/herramientas reportó cero vulnerabilidades. Los resultados históricos siguientes se conservan con su alcance original; no describen pendientes actuales.
+
+El usuario confirmó login móvil y panel administrador de producción. Se observaron HTTP→HTTPS, cookies seguras, CSRF 403 y administración anónima 401. SSL Labs: A+ y A. SecurityHeaders: A+ comunicado por el usuario, falta captura. ZAP pasivo: una alerta media y cuatro informativas; no se ejecutó escaneo activo ni el script Docker baseline.
+
+Resultados y limitaciones: [INFORME_SEGURIDAD.md](INFORME_SEGURIDAD.md). Evidencias: [26/11/2026](evidencias/2026-11-26/). Ninguna suite automatizada se ejecutó contra Supabase.
+
+---
+
 # Pruebas y resultados
 
 ## Brevo HTTPS para Render Free

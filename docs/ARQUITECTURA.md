@@ -5,7 +5,7 @@ flowchart LR
  B[React navegador] -->|HTTPS cookie opaca| V[Vercel SPA y rewrite api]
  V -->|HTTPS| R[Render Express]
  R -->|TLS verificado| D[(Supabase esquema securevault)]
- R -->|SMTP TLS| M[Correo]
+ R -->|Brevo HTTPS| M[Correo]
  R -. tema opcional .-> A[IA]
 ```
 
@@ -24,4 +24,4 @@ app.js compone HTTP y registra rutas explícitas; server.js abre puerto y gestio
 
 Bloqueo de fila de usuario serializa límite de 100 entradas. Recuperación bloquea usuario y token. Administración usa advisory lock y vuelve a verificar al actor dentro de transacción. Auditoría comparte transacción con cambio y revocación.
 
-Límites: SMTP sin cola de reintentos; entrega fallida se audita y responde genérico. Sin versionado de ediciones ni recuperación de llaves. Rate limit general por proceso. Topología de proxy requiere prueba pública real.
+Límites: correo sin cola de reintentos; entrega fallida se audita y responde genérico. Sin versionado de ediciones ni recuperación de llaves. Rate limit general por proceso. Topología de proxy requiere prueba pública real.
