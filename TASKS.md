@@ -183,3 +183,13 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - [ ] Entregar credenciales por canal privado y realizar demo de diez minutos con tres ataques.
 - [ ] Verificar proxy/IP y rol mínimo runtime; decidir alerta CORS y ampliar baseline si se exige script Docker.
 - No se cambió código de aplicación ni se regeneraron llaves. Los pendientes históricos resueltos quedan supersedidos por esta sección.
+
+## Cuaderno 3D — 26/11/2026
+- [x] Rediseño frontend: tapa de cuero, lomo, hojas con grosor y animación de páginas.
+- [x] Personalización local de tapa, papel, tipografía, escritorio y ambiente; nunca guarda entradas ni secretos en localStorage.
+- [x] Fondo con luz, sombras y partículas; controles sin movimiento y soporte prefers-reduced-motion.
+- [x] Diseño adaptable, navegación con teclado y gestos; usuario revisó y aprobó la vista local.
+- [x] Frontend: 16 pruebas aprobadas, lint y compilación correctos.
+- [ ] Publicación en Vercel y verificación del bundle público en esta fase.
+- Sin cambios de backend, base de datos, llaves ni dependencias.
+
