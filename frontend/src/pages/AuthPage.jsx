@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Leaf, LockKeyhole, BookOpen } from "lucide-react";
+import { Feather, LockKeyhole } from "lucide-react";
+import { LeatherCover } from "../components/diary/Notebook";
+import DeskAtmosphere from "../components/diary/DeskAtmosphere";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
 import { ErrorMessage, Field } from "../components/common/UI";
@@ -79,10 +81,11 @@ export default function AuthPage() {
   }
   return (
     <div className="auth-layout">
+      <DeskAtmosphere />
       <section className="auth-story">
         <div className="brand">
           <span className="brand-icon">
-            <Leaf />
+            <Feather />
           </span>
           SecureVault
         </div>
@@ -99,9 +102,8 @@ export default function AuthPage() {
             Tu espacio para escribir y guardar lo que importa. Sin prisa, a tu
             manera.
           </p>
-          <div className="book-illustration">
-            <BookOpen size={112} strokeWidth={0.7} />
-            <span className="sprig">✳</span>
+          <div className="auth-book-scene">
+            <LeatherCover name="Un lugar para vos" decorative />
           </div>
         </div>
         <small>
