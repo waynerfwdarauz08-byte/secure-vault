@@ -13,14 +13,15 @@ Tu espacio para escribir y guardar lo que importa. Diario privado en español: R
 - [Investigación de diez preguntas en PDF](docs/Investigacion_Despliegue_SecureVault.pdf).
 - [Investigación con fuentes oficiales](docs/INVESTIGACION_DESPLIEGUE.md).
 - [Resultados comprobados y pendientes](docs/ENTREGA.md).
+- [Informe de seguridad](docs/INFORME_SEGURIDAD.md) y [PDF](docs/Informe_Seguridad_SecureVault.pdf).
 
-El 25/11/2026 se comprobaron respuestas HTTP 200 del frontend y de la API. Los reportes externos de seguridad y la comprobación final del login móvil siguen pendientes. Render Free puede suspender el servicio por inactividad.
+El 25/11/2026 se comprobaron respuestas HTTP 200 del frontend y de la API. El usuario confirmó el login móvil y el panel administrador. Los reportes y sus límites se detallan en [INFORME_SEGURIDAD.md](docs/INFORME_SEGURIDAD.md). Render Free puede suspender el servicio por inactividad.
 
 ## Perfil administrador
 
 El registro público crea usuarios normales. El administrador gestiona usuarios y consulta eventos de seguridad; no tiene acceso al contenido privado de diarios ajenos. No existe una cuenta ni contraseña predeterminada.
 
-La cuenta administradora creada durante las pruebas locales corresponde a desarrollo. La preparación de administrador de producción está pendiente de identificar la cuenta correcta; no se deduce a partir del remitente de correo. El comando seguro de creación se ejecuta desde backend con `npm run admin` para el ambiente local configurado. No compartir credenciales en el repositorio.
+El 26/11/2026 se prepararon un administrador de producción y un usuario normal de evaluación. El usuario confirmó acceso al panel y visualización de Usuarios y Eventos. Sus credenciales deben entregarse por canal privado, nunca en Git. El comando seguro de creación se ejecuta desde backend con `npm run admin` para el ambiente local configurado. No compartir credenciales en el repositorio.
 
 ## Ejecutar en Windows / VS Code
 

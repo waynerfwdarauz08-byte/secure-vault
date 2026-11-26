@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-26T14:19:27.526Z",
+  "mode": "Read-only aggregate verification after approved account provisioning; no private values, ciphertext, hashes, phone numbers or email addresses exported",
+  "administratorCreatedUsingExistingCommand": true,
+  "administratorActive": true,
+  "evaluationUserPrepared": true,
+  "credentialsExcludedFromGit": true,
+  "dbTlsVerified": true,
+  "total_users": 5,
+  "all_passwords_argon2id": true,
+  "encrypted_phone_rows": 0,
+  "all_present_phones_have_envelope": true,
+  "total_notes": 4,
+  "all_notes_have_envelope": true,
+  "runtime_superuser": false,
+  "runtime_can_create": true,
+  "limits": "Envelope presence alone does not prove algorithm strength or plaintext absence; cryptographic behavior is verified by isolated integration/unit tests. Runtime can CREATE: minimum privilege separation remains pending."
+}

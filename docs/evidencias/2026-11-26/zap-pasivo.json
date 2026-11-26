@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-26T14:18:04.430Z",
+  "scanner": "OWASP ZAP",
+  "version": "2.17.0",
+  "mode": "Traditional spider and passive scan only; no active scan; forms disabled; unauthenticated; not packaged Docker baseline script",
+  "targets": [
+    "https://secure-vault-theta-bay.vercel.app/login",
+    "https://secure-vault-wtev.onrender.com/health"
+  ],
+  "alerts": [
+    {
+      "pluginId": "10015",
+      "alert": "Re-examine Cache-control Directives",
+      "risk": "Informational",
+      "confidence": "Low",
+      "description": "The cache-control header has not been set properly or is missing, allowing the browser and proxies to cache content. For static assets like css, js, or image files this might be intended, however, the resources should be reviewed to ensure that no sensitive content will be cached.",
+      "solution": "For secure content, ensure the cache-control HTTP header is set with \"no-cache, no-store, must-revalidate\". If an asset should be cached consider setting the directives \"public, max-age, immutable\".",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#web-content-caching\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control\nhttps://grayduck.mn/2021/09/13/cache-control-recommendations/",
+      "cweid": "525",
+      "wascid": "13",
+      "url": "https://secure-vault-theta-bay.vercel.app/login"
+    },
+    {
+      "pluginId": "10098",
+      "alert": "Cross-Domain Misconfiguration",
+      "risk": "Medium",
+      "confidence": "Medium",
+      "description": "Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server.",
+      "solution": "Ensure that sensitive data is not available in an unauthenticated manner (using IP address white-listing, for instance).\nConfigure the \"Access-Control-Allow-Origin\" HTTP header to a more restrictive set of domains, or remove all CORS headers entirely, to allow the web browser to enforce the Same Origin Policy (SOP) in a more restrictive manner.",
+      "reference": "https://vulncat.fortify.com/en/detail?category=HTML5&subcategory=Overly%20Permissive%20CORS%20Policy",
+      "cweid": "264",
+      "wascid": "14",
+      "url": "https://secure-vault-theta-bay.vercel.app/login"
+    },
+    {
+      "pluginId": "10109",
+      "alert": "Modern Web Application",
+      "risk": "Informational",
+      "confidence": "Medium",
+      "description": "The application appears to be a modern web application. If you need to explore it automatically then the Client Spider may well be more effective than the standard one.",
+      "solution": "This is an informational alert and so no changes are required.",
+      "reference": "",
+      "cweid": "-1",
+      "wascid": "-1",
+      "url": "https://secure-vault-theta-bay.vercel.app/login"
+    },
+    {
+      "pluginId": "10050",
+      "alert": "Retrieved from Cache",
+      "risk": "Informational",
+      "confidence": "Medium",
+      "description": "The content was retrieved from a shared cache. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where caching servers such as \"proxy\" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.",
+      "solution": "Validate that the response does not contain sensitive, personal or user-specific information. If it does, consider the use of the following HTTP response headers, to limit, or prevent the content being stored and retrieved from the cache by another user:\nCache-Control: no-cache, no-store, must-revalidate, private\nPragma: no-cache\nExpires: 0\nThis configuration directs both HTTP 1.0 and HTTP 1.1 compliant caching servers to not store the response, and to not retrieve the response (without validation) from the cache, in response to a similar request.",
+      "reference": "https://datatracker.ietf.org/doc/html/rfc7234\nhttps://datatracker.ietf.org/doc/html/rfc7231\nhttps://www.rfc-editor.org/rfc/rfc9110.html",
+      "cweid": "525",
+      "wascid": "-1",
+      "url": "https://secure-vault-theta-bay.vercel.app/login"
+    },
+    {
+      "pluginId": "10015",
+      "alert": "Re-examine Cache-control Directives",
+      "risk": "Informational",
+      "confidence": "Low",
+      "description": "The cache-control header has not been set properly or is missing, allowing the browser and proxies to cache content. For static assets like css, js, or image files this might be intended, however, the resources should be reviewed to ensure that no sensitive content will be cached.",
+      "solution": "For secure content, ensure the cache-control HTTP header is set with \"no-cache, no-store, must-revalidate\". If an asset should be cached consider setting the directives \"public, max-age, immutable\".",
+      "reference": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#web-content-caching\nhttps://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control\nhttps://grayduck.mn/2021/09/13/cache-control-recommendations/",
+      "cweid": "525",
+      "wascid": "13",
+      "url": "https://secure-vault-wtev.onrender.com/health"
+    }
+  ],
+  "summary": {
+    "Informational": 4,
+    "Medium": 1
+  }
+}

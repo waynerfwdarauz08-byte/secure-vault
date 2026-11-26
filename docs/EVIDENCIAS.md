@@ -1,20 +1,22 @@
-# Registro de evidencias
+﻿# Registro de evidencias
 
-## Reales locales
+Actualizado: 26/11/2026, Costa Rica. Interpretación y límites en [INFORME_SEGURIDAD.md](INFORME_SEGURIDAD.md).
 
-Código de pruebas en backend/tests y frontend/src/pages/diary.test.jsx. PRUEBAS.md registra comandos y resultados observados. Cifrado verificado leyendo filas reales de PostgreSQL temporal desde integración; no son capturas de Supabase. No se incluye contenido sensible ni credenciales.
+## Ejecutadas y conservadas
 
-## A recopilar al desplegar
+- [Pruebas y confirmaciones](evidencias/2026-11-26/pruebas-resumen.json): 18 unitarias backend, 16 resultados integración aislada y 12 frontend aprobados; login móvil y panel administrador confirmados por el usuario.
+- [Auditoría backend](evidencias/2026-11-26/npm-audit-backend.json), [frontend](evidencias/2026-11-26/npm-audit-frontend.json) y [herramientas](evidencias/2026-11-26/npm-audit-tools.json): cero vulnerabilidades.
+- [HTTPS, cookies y CSRF](evidencias/2026-11-26/https-cookies-csrf.json): redirecciones 308/301, cabeceras, atributos de cookie sin su valor, CSRF 403 y administrador anónimo 401.
+- [SSL Labs](evidencias/2026-11-26/ssllabs-vercel.json): READY, endpoints A+ y A; resultado conservador A.
+- [SecurityHeaders](evidencias/2026-11-26/securityheaders-confirmacion.json): A+ comunicado por usuario, no obtenido automáticamente; falta captura/exportación.
+- [ZAP pasivo](evidencias/2026-11-26/zap-pasivo.json): 1 alerta media y 4 informativas; dos URLs públicas sin autenticación ni escaneo activo. No es ejecución del script Docker baseline.
+- [PostgreSQL agregados](evidencias/2026-11-26/postgresql-agregados.json): administrador activo, prefijos Argon2id y sobres de notas; sin datos privados. Cero teléfonos en producción: comprobación vacía no demuestra una fila real.
 
-1. URL pública real de Vercel y backend Render; fecha, SHA y CI verde.
-2. Captura de sesión con atributos de cookie (ocultar valor) y CSRF 403.
-3. Registro/login/logout y persistencia tras reiniciar backend.
-4. Entrada creada/editada, tarjetas/favoritos/calendario; marcar datos demostrativos como ejemplos.
-5. Teléfono enmascarado y revelado por dueño, sin revelar teléfonos en informe compartido.
-6. SQL Editor de Supabase con hash Argon2id y sobre de ciphertext; ocultar credenciales/contenido.
-7. Usuario B/admin reciben 404 para nota de A; registro con role da 422; 429 después de fallos. Bitácora muestra alerta.
-8. Recuperación real SMTP; ocultar enlace/token y no capturar buzón personal innecesariamente.
-9. Reportes ZAP baseline, securityheaders.com y SSL Labs sobre recursos propios autorizados.
-10. Capturas desktop/móvil y recorrido con teclado; pendientes por bloqueo de Computer Use.
+## Falta adjuntar o demostrar
 
-Plantilla por evidencia: fecha/hora Costa Rica, ambiente, SHA, comando/acción, resultado esperado, resultado observado, ruta al archivo saneado, responsable. No fabricar calificaciones A, ausencia de hallazgos ni disponibilidad pública. La aceptación del laboratorio permanece pendiente sin estos puntos.
+1. Captura SecurityHeaders y panel Usuarios/Eventos, ocultando datos personales.
+2. Demo de diez minutos con tres ataques bloqueados y entrega privada de cuentas de evaluación.
+3. Evidencia de producción para IDOR, SQLi/XSS, recuperación, logs y persistencia tras reinicio. La evidencia automatizada disponible corresponde a base aislada.
+4. Verificar proxy/IP, rol mínimo PostgreSQL y gate CI/despliegue.
+
+Cada evidencia nueva debe indicar fecha/hora Costa Rica, ambiente, SHA, acción, resultado esperado, observado y ruta al archivo saneado. Nunca publicar cookies, contraseñas, enlaces de recuperación, llaves o entradas privadas. Las confirmaciones del usuario se identifican como tales.

@@ -166,3 +166,20 @@ No se guardan aquí correos personales, contraseñas, URI de conexión, llaves, 
 - [ ] Reportes ZAP, SecurityHeaders y SSL Labs; rol mínimo PostgreSQL e IP efectiva de proxy.
 - Detalle de evidencias y límites: docs/ENTREGA.md.
 
+
+## Cierre de evidencias — 26/11/2026
+- [x] Login móvil y documentación en main confirmados por el usuario.
+- [x] Administrador de producción creado con comando existente; usuario confirmó Usuarios y Eventos.
+- [x] Usuario normal de evaluación preparado; credenciales locales ignoradas por Git, no publicadas.
+- [x] 18 unitarias backend, 16 resultados integración aislada y 12 pruebas frontend aprobados.
+- [x] Tres npm audit con cero vulnerabilidades y reportes guardados.
+- [x] HTTP a HTTPS, cookies sin valores, CSRF 403 y admin anónimo 401 verificados.
+- [x] SSL Labs READY A+/A; reporte real conservado.
+- [x] SecurityHeaders A+ confirmado por usuario (falta captura).
+- [x] ZAP 2.17 pasivo ejecutado: 1 alerta media CORS en HTML público, 4 informativas; no escaneo activo.
+- [x] Agregados PostgreSQL verifican hashes y sobres de notas, sin contenido privado.
+- [x] Informe consolidado con mapa OWASP, criptografía y riesgos; trabajo individual declarado.
+- [ ] Adjuntar captura SecurityHeaders y evidencia visual de producción.
+- [ ] Entregar credenciales por canal privado y realizar demo de diez minutos con tres ataques.
+- [ ] Verificar proxy/IP y rol mínimo runtime; decidir alerta CORS y ampliar baseline si se exige script Docker.
+- No se cambió código de aplicación ni se regeneraron llaves. Los pendientes históricos resueltos quedan supersedidos por esta sección.

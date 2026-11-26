@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-26T14:22:06.511Z",
+  "baseCommit": "a8112c2",
+  "automatedTestDatabase": "Isolated temporary PostgreSQL 17; no Supabase",
+  "backendUnit": {
+    "command": "npm test (backend)",
+    "passed": 18,
+    "failed": 0
+  },
+  "integration": {
+    "command": "npm test (repository root)",
+    "passed": 16,
+    "failed": 0,
+    "detail": "15 cases plus enclosing test"
+  },
+  "frontend": {
+    "command": "npm test -- --run (frontend)",
+    "passed": 12,
+    "failed": 0
+  },
+  "mobileLogin": {
+    "source": "user confirmation",
+    "working": true
+  },
+  "administratorPanel": {
+    "source": "user confirmation",
+    "usersVisible": true,
+    "securityEventsVisible": true
+  },
+  "securityReports": "Files alongside this summary"
+}
